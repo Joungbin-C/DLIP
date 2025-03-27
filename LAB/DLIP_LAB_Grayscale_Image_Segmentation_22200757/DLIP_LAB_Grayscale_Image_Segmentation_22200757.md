@@ -151,7 +151,7 @@ $$
 
 ![Gear4](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img/Gear4.jpg)
 
-Each Figure shows the statistic output and visual results. As images show, teeth-only image is extracted from an original image. The area of each teeth is displayed. The defected teeth is colored with red. Lastly, the defected teethes are circled on the original image. As the result shows defected teethes are well defined. 
+Each Figure shows the statistical output and visual results. As images show, a teeth-only image is extracted from an original image. The area of each tooth is displayed. The defective teeth are colored red. Lastly, the defective teethes are circled on the original image. As the result shows defected teethes are well defined. 
 
 
 
@@ -159,15 +159,14 @@ Each Figure shows the statistic output and visual results. As images show, teeth
 
 ![Results](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img/Results.jpg)
 
-This algorithm successfully accomplishes the project goal, which is to classify defected teethes and normal teethes. As the Table 1 shows, the total number of teethes, the average of teeth's area, the number of defected teethes, a diameter of the gear, and the quality classification. The broken or poorly constructed teethes are well detected, but the shape of teeth cannot be judged. It means that even if the teeth is poorly made, it will be detected as a normal teeth if it overs the threshold value of area. Additionally, if different gears come in, area threshold value has to be changed. In this experiment, the environment is fixed with a same size gears that are taken a picture in the same height. To utilize this algorithm to different size of gears, the method of finding threshold is needed. Moreover, the morphology with big size kernel takes long time to process. The reason is that a bigger size of kernel increases the computation complexity since it is a convolution calculation. Therefore, this algorithm is not efficient to detect moving gears. However, it is efficient for this project environment, because it is detecting errors with pictures of gears. 
+This algorithm successfully accomplishes the project goal, which is to classify defective teethes and normal teethes. As Table 1 shows, the total number of teethes, the average teeth area, the number of defective teethes, the diameter of the gear, and the quality classification. The broken or poorly constructed teethes are well detected, but the shape of teeth cannot be judged. It means that even if the teeth are poorly made, they will be detected as normal teeth if it is over the threshold value of area. Additionally, if different gears come in, the area threshold value has to be changed. In this experiment, the environment is fixed with the same size gears that are taken a picture at the same height. To utilize this algorithm for different sizes of gears, the method of finding the threshold is needed. Moreover, the morphology with a big-sized kernel takes a long time to process. The reason is that a bigger size kernel increases the computation complexity since it is a convolution calculation. Therefore, this algorithm is not efficient in detecting moving gears. However, it is efficient for this project environment, because it is detecting errors with pictures of gears. 
 
 
 
 # Conclusion
 
-The goal of this project was to detect defected teeth in gear images using image processing techniques. The algorithm successfully identified irregularities in the teeth based on contour analysis and area measurement. This method successfully detect all of test images. To be used in real situation, adjusting thresholds and environments to increase accuracy and robustness. 
-
-There are certain parts that should be developed if the environment or setting have been changed. Therefore, constructing right algorithm for its environment is essential for vision engineering. 
+The goal of this project was to detect defective teeth in gear images using image processing techniques. The algorithm successfully identified irregularities in the teeth based on contour analysis and area measurement. This method successfully detected all of the test images. It is to be used in real situations, adjusting thresholds and environments to increase accuracy and robustness. 
+There are certain parts that should be developed if the environment or setting has been changed. Therefore, constructing the right algorithm for its environment is essential for vision engineering. 
 
 
 
@@ -188,19 +187,21 @@ There are certain parts that should be developed if the environment or setting h
 using namespace cv;
 using namespace std;
 
-void showImage(const Mat& img, const string& title);
-Mat preprocessImage(const string& img_path);
-Mat fillHoles(const Mat& bw);
-Mat applyMorphology(const Mat& fill);
-float findDiameter(Mat open);
-vector<vector<Point>> FindAndFilterTeethContours(const Mat& teeth_img);
-void calculateTeethProperties(const vector<vector<Point>>& contours, const Point2f& gear_center, int& normal_teeth, int& defective_teeth, double& total_area, vector<double>& lengths,  double& total_length);
-void DrawTeethContours(Mat& contourImg, Mat& img, const vector<vector<Point>>& contours, const Point2f& gear_center, const vector<double>& lengths, double avg_length);
-void PrintTeethResults(int normal_teeth, int defective_teeth, double total_area, float diameter);
-void analyzeTeeth(const Mat& fill, const Mat& open, Mat& img, float diameter);
+/*--------------function declaration---------------*/
+void Show_Image(const Mat& img, const string& title);
+Mat Preprocessing(const string& img_path);
+Mat Filling_Holes(const Mat& bw);
+Mat Applying_Morphology(const Mat& fill);
+float Finding_Diameter(Mat open);
+vector<vector<Point>> FindAndFilter_Teeth_Contours(const Mat& teeth_img);
+void Calculate_Teeth_Properties(const vector<vector<Point>>& contours, const Point2f& gear_center, int& normal_teeth, int& defective_teeth, double& total_area, vector<double>& lengths,  double& total_length);
+void Draw_Teeth_Contours(Mat& contourImg, Mat& img, const vector<vector<Point>>& contours, const Point2f& gear_center, const vector<double>& lengths, double avg_length);
+void Printing_Teeth_Results(int normal_teeth, int defective_teeth, double total_area, float diameter);
+void Analyzing_Teeth(const Mat& fill, const Mat& open, Mat& img, float diameter);
 
+/*---------------------main---------------------*/
 int main() {
-    string img_path = "../Image/Gear2.jpg";
+    string img_path = "../Image/Gear1.jpg";
     Mat img = imread(img_path);
 
     if (img.empty()) {
@@ -208,23 +209,26 @@ int main() {
         return 1;
     }
 
-    Mat bw = preprocessImage(img_path);
-    Mat fill = fillHoles(bw);
-    Mat open = applyMorphology(fill);
-    float diameter = findDiameter(open);
-    analyzeTeeth(fill, open, img, diameter);
+    Mat bw = Preprocessing(img_path);
+    Mat fill = Filling_Holes(bw);
+    Mat open = Applying_Morphology(fill);
+    float diameter = Finding_Diameter(open);
+    Analyzing_Teeth(fill, open, img, diameter);
 
     return 0;
 }
 
-void showImage(const Mat& img, const string& title) {
+/*----------------function definition----------------*/
+// The Function to show image one by one
+void Show_Image(const Mat& img, const string& title) {
     namedWindow(title, WINDOW_AUTOSIZE);
     imshow(title, img);
     waitKey(0);
     destroyAllWindows();
 }
 
-Mat preprocessImage(const string& img_path) {
+// Preprocessing image to make it to binary image and optimize it with Otsu method
+Mat Preprocessing(const string& img_path) {
     Mat img = imread(img_path);
     if (img.empty()) {
         cerr << "Error: Could not read the image!" << endl;
@@ -235,11 +239,12 @@ Mat preprocessImage(const string& img_path) {
     cvtColor(img, gray, COLOR_BGR2GRAY);
     threshold(gray, bw, 0, 255, THRESH_BINARY | THRESH_OTSU);
 
-    showImage(bw, "Segmented Image");
+    Show_Image(bw, "Segmented Image");
     return bw;
 }
 
-Mat fillHoles(const Mat& bw) {
+// Filling a middle hole of the gear
+Mat Filling_Holes(const Mat& bw) {
     Mat floodfill = bw.clone();
     floodFill(floodfill, Point(0, 0), Scalar(255));
 
@@ -247,19 +252,21 @@ Mat fillHoles(const Mat& bw) {
     bitwise_not(floodfill, floodfill_inv);
 
     Mat fill = (bw | floodfill_inv);
-    showImage(fill, "Filled Image");
+    Show_Image(fill, "Filled Image");
     return fill;
 }
 
-Mat applyMorphology(const Mat& fill) {
+// Using opening method to make it a circle
+Mat Applying_Morphology(const Mat& fill) {
     Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(140, 140));
     Mat open;
     morphologyEx(fill, open, MORPH_OPEN, kernel);
-    showImage(open, "Opened Region");
+    Show_Image(open, "Opened Region");
     return open;
 }
 
-float findDiameter(Mat open) {
+// Find the diameter with minEnclosingCircle function
+float Finding_Diameter(Mat open) {
     vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
     findContours(open, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
@@ -272,7 +279,8 @@ float findDiameter(Mat open) {
     return radius * 2;
 }
 
-vector<vector<Point>> FindAndFilterTeethContours(const Mat& teeth_img) {
+// Find the contours with teeth-only image. Filtered noise contour.
+vector<vector<Point>> FindAndFilter_Teeth_Contours(const Mat& teeth_img) {
     vector<vector<Point>> contours, filtered_contours;
     vector<Vec4i> hierarchy;
     findContours(teeth_img, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
@@ -285,7 +293,8 @@ vector<vector<Point>> FindAndFilterTeethContours(const Mat& teeth_img) {
     return filtered_contours;
 }
 
-void calculateTeethProperties(const vector<vector<Point>>& contours, const Point2f& gear_center, int& normal_teeth, int& defective_teeth, double& total_area, vector<double>& lengths, double& total_length) {
+// Calculate length, area, center of teeth, number of normal and defective teeth
+void Calculate_Teeth_Properties(const vector<vector<Point>>& contours, const Point2f& gear_center, int& normal_teeth, int& defective_teeth, double& total_area, vector<double>& lengths, double& total_length) {
     lengths.clear();
     double area_max_threshold = 950, area_min_threshold = 20;
 
@@ -309,15 +318,14 @@ void calculateTeethProperties(const vector<vector<Point>>& contours, const Point
     }
 }
 
-void DrawTeethContours(Mat& contourImg, Mat& img, const vector<vector<Point>>& contours, const Point2f& gear_center, const vector<double>& lengths, double avg_length) {
+// Draw contour and put text next to it. Draw circle on defective teeth.
+void Draw_Teeth_Contours(Mat& contourImg, Mat& img, const vector<vector<Point>>& contours, const Point2f& gear_center, const vector<double>& lengths, double avg_length) {
     double length_offset = 50;
     double area_max_threshold = 950, area_min_threshold = 20;
-
 
     for (int i = 0; i < contours.size(); i++) {
         Moments moment_contour = moments(contours[i]);
         Point2f teeth_center(moment_contour.m10 / moment_contour.m00, moment_contour.m01 / moment_contour.m00);
-        circle(contourImg, teeth_center, 2, Scalar(255, 0, 0), -1);
         double area = contourArea(contours[i]);
         Point2f direction = gear_center - teeth_center;
         Point2f normalized_direction = direction / lengths[i];
@@ -338,14 +346,15 @@ void DrawTeethContours(Mat& contourImg, Mat& img, const vector<vector<Point>>& c
     }
 }
 
-void PrintTeethResults(int normal_teeth, int defective_teeth, double total_area, float diameter) {
+// Print out the statistic results
+void Printing_Teeth_Results(int normal_teeth, int defective_teeth, double total_area, float diameter) {
     double total_teeth = normal_teeth + defective_teeth;
     double avg_area = total_teeth == 0 ? 0 : total_area / total_teeth;
 
     cout << "Total Teeth: " << total_teeth << endl;
     cout << "Avg Teeth Area: " << avg_area << endl;
     cout << "Normal Teeth: " << normal_teeth << endl;
-    cout << "Defective Teeth: " << defective_teeth << endl;
+    cout << "defective Teeth: " << defective_teeth << endl;
     cout << "Diameter: " << diameter << endl;
 
     if (defective_teeth != 0) {
@@ -355,29 +364,30 @@ void PrintTeethResults(int normal_teeth, int defective_teeth, double total_area,
     }
 }
 
-void analyzeTeeth(const Mat& fill, const Mat& open, Mat& img, float diameter) {
+// Combine all processes.
+void Analyzing_Teeth(const Mat& fill, const Mat& open, Mat& img, float diameter) {
     Moments gearMoments = moments(open);
     Point2f gear_center((gearMoments.m10 / gearMoments.m00), gearMoments.m01 / gearMoments.m00);
 
     Mat teeth_img = fill - open;
-    showImage(teeth_img, "Teeth Image");
+    Show_Image(teeth_img, "Teeth Image");
 
-    vector<vector<Point>> contours = FindAndFilterTeethContours(teeth_img);
+    vector<vector<Point>> contours = FindAndFilter_Teeth_Contours(teeth_img);
 
     int normal_teeth = 0, defective_teeth = 0;
     double total_area = 0;
     vector<double> lengths = {0};
     double total_length = 0;
-    calculateTeethProperties(contours, gear_center, normal_teeth, defective_teeth, total_area, lengths, total_length);
+    Calculate_Teeth_Properties(contours, gear_center, normal_teeth, defective_teeth, total_area, lengths, total_length);
 
     double avg_length = lengths.empty() ? 0 : total_length / lengths.size();
 
     Mat contourImg = Mat::zeros(teeth_img.size(), CV_8UC3);
-    DrawTeethContours(contourImg, img, contours, gear_center, lengths, avg_length);
+    Draw_Teeth_Contours(contourImg, img, contours, gear_center, lengths, avg_length);
 
-    showImage(contourImg, "Detected Contours with Areas");
-    showImage(img, "Defective Teeth Marked");
+    Show_Image(contourImg, "Detected Contours with Areas");
+    Show_Image(img, "Defective Teeth Marked");
 
-    PrintTeethResults(normal_teeth, defective_teeth, total_area, diameter);
+    Printing_Teeth_Results(normal_teeth, defective_teeth, total_area, diameter);
 }
 ```
