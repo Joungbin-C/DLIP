@@ -85,7 +85,7 @@ The reason of doing morphology is to delete the teethes and make a circle to sub
 
 ### Put Circle & Text
 
-![Text_logic2](img\puttextdiagram.jpg)
+![Text_logic2](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img\puttextdiagram.jpg)
 
 1. Find the moment of the image which goes through opening morphology. The function, `moements()`, calculate the moments base on the location of pixels and intensity. In this project, that function is utilized to find the center point of the gear. The equation follows:
 
@@ -117,7 +117,7 @@ $$
 Center \ of \ text \ (x, y) = (textsize.height/2 , textsize.width/2)
 $$
 
-![Text_logic](Img\textbox.jpg)
+![Text_logic](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/Img\textbox.jpg)
 
 6. Find the point to place the text
 
@@ -135,21 +135,21 @@ $$
 
 ## 1. Final Result
 
-![Gear1_static](img\Gear1_static.jpg)
+![Gear1_static](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img\Gear1_static.jpg)
 
-![Gear1](img\Gear1.jpg)
+![Gear1](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img\Gear1.jpg)
 
-![Gear2_static](img\Gear2_static.jpg)
+![Gear2_static](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img\Gear2_static.jpg)
 
-![Gear2](img\Gear2.jpg)
+![Gear2](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img\Gear2.jpg)
 
-![Gear3_static](img\Gear3_static.jpg)
+![Gear3_static](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img\Gear3_static.jpg)
 
-![Gear3](img\Gear3.jpg)
+![Gear3](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img\Gear3.jpg)
 
-![Gear4_static](img\Gear4_static.jpg)
+![Gear4_static](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img\Gear4_static.jpg)
 
-![Gear4](img\Gear4.jpg)
+![Gear4](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img\Gear4.jpg)
 
 Each Figure shows the statistic output and visual results. As images show, teeth-only image is extracted from an original image. The area of each teeth is displayed. The defected teeth is colored with red. Lastly, the defected teethes are circled on the original image. As the result shows defected teethes are well defined. 
 
@@ -157,7 +157,7 @@ Each Figure shows the statistic output and visual results. As images show, teeth
 
 ## 2. Discussion
 
-![Results](img\Results.jpg)
+![Results](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img\Results.jpg)
 
 This algorithm successfully accomplishes the project goal, which is to classify defected teethes and normal teethes. As the Table 1 shows, the total number of teethes, the average of teeth's area, the number of defected teethes, a diameter of the gear, and the quality classification. The broken or poorly constructed teethes are well detected, but the shape of teeth cannot be judged. It means that even if the teeth is poorly made, it will be detected as a normal teeth if it overs the threshold value of area. Additionally, if different gears come in, area threshold value has to be changed. In this experiment, the environment is fixed with a same size gears that are taken a picture in the same height. To utilize this algorithm to different size of gears, the method of finding threshold is needed. Moreover, the morphology with big size kernel takes long time to process. The reason is that a bigger size of kernel increases the computation complexity since it is a convolution calculation. Therefore, this algorithm is not efficient to detect moving gears. However, it is efficient for this project environment, because it is detecting errors with pictures of gears. 
 
