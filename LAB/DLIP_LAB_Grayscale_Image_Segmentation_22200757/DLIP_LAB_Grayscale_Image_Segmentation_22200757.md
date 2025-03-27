@@ -47,7 +47,7 @@ There are four images of gear. Gear1.jpg and Gear3.jpg are images of defected ge
 
 ## 1. Overview
 
-![flowchart](img\flowchart.jpg)
+![flowchart](..\img\flowchart.jpg)
 
 
 
