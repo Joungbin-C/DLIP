@@ -117,7 +117,7 @@ $$
 Center \ of \ text \ (x, y) = (textsize.height/2 , textsize.width/2)
 $$
 
-![Text_logic](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/Img/textbox.jpg)
+![Text_logic](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img/textbox.jpg)
 
 6. Find the point to place the text
 
@@ -143,9 +143,9 @@ $$
 
 ![Gear2](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img/Gear2.jpg)
 
-![Gear3_static](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img\Gear3_static.jpg)
+![Gear3_static](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img/Gear3_static.jpg)
 
-![Gear3](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img\Gear3.jpg)
+![Gear3](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img/Gear3.jpg)
 
 ![Gear4_static](https://github.com/Joungbin-C/DLIP/blob/main/LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img/Gear4_static.jpg)
 
