@@ -47,7 +47,7 @@ There are four images of gear. Gear1.jpg and Gear3.jpg are images of defected ge
 
 ## 1. Overview
 
-![flowchart](LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img/DLIP_LAB_Grayscale_Image_Segmentation_22200757/flowchart.jpg)
+![flowchart](LAB/DLIP_LAB_Grayscale_Image_Segmentation_22200757/img/flowchart.jpg)
 
 
 
