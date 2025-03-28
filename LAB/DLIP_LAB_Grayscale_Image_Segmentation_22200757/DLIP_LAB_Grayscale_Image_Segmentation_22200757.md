@@ -129,6 +129,9 @@ text\ position.y += textsize.height / 2;
 text\ position.x -= textsize.width / 2;
 $$
 
+### Show_Image()
+
+The function, `Show_Image()`, has been created to see the image step by step. To see the next picture, any key must be pressed. 
 
 
 # Result and Discussion
