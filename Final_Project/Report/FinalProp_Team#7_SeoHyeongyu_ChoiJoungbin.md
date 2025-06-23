@@ -158,8 +158,7 @@ To build a high-quality dataset for training a deep learning-based vibration mag
 
    A classical **optical flow algorithm** is applied to pairs of consecutive frames to generate vibration-magnified reference frames. These optical-flow-based outputs serve as the ground truth `Y` for training the magnification model.
 
-
-<img src="img/DataSetFlowChart.png" alt="DataSetFlowChart" style="zoom: 15%;" />
+<img src="img/DataSetFlowChart.png" alt="DataSetFlowChart" style="zoom: 75%;" />
 
 #### **B. Dataset Structure for Model Training.** 
 
